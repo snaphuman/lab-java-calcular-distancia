@@ -3,45 +3,43 @@ import java.util.regex.Pattern;
 
 public class Linea {
 
+    static Pattern patron = Pattern.compile("[0-9]+[,][0-9]+");
+
     public static void main(String[] args) {
-
-	String punto1 = "";
-	String punto2 = "";
-
-	Pattern patron = Pattern.compile("[0-9]+[,][0-9]+");
 
 	// Solicita datos de entrada
 	Scanner in = new Scanner(System.in);
 
+	int contador = 1;
+
+	String punto1 = verificarEntrada(in, contador);
+	contador ++;
+	String punto2 = verificarEntrada(in, contador);
+	
+	double d = calcularDistancia(punto1, punto2);
+	
+        System.out.println("La distancia entre los dos puntos es: " + d);
+	
+    }
+
+    private static String verificarEntrada(Scanner in, int contador) {
+	String punto = "";
+
 	boolean cumple = false;
 	while (cumple == false) {
-	    System.out.print("Punto 1: ");
+	    System.out.print("Punto " + contador + ": ");
 	    try {
-		punto1 = in.next(patron);	
+		punto = in.next(patron);	
 		cumple = true;
+
 	    } catch (Exception e) {
-		System.out.println("No coincide");
-		in.nextLine();
-		cumple = false;
-	    }
-	}
-	cumple = false;
-	while (cumple == false) {
-	    System.out.print("Ingrese los valores del punto 2. ie: x,y: ");
-	    try {
-		punto2 = in.next(patron);
-		cumple = true;
-	    } catch (Exception e) {
-		System.out.println("No coindide");
+		System.out.println("Por favor verifique el formato del punto. ej: x,y");
 		in.nextLine();
 		cumple = false;
 	    }
 	}
 
-	double d = calcularDistancia(punto1, punto2);
-	
-        System.out.println("La distancia entre los dos puntos es: " + d);
-	
+	return punto;
     }
 
     public static double calcularDistancia(String punto1, String punto2) {
